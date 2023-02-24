@@ -1,5 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { deleteRow } from '../Redux/detailcounter/actions';
 
 
 const AddedData = ({
@@ -8,12 +9,18 @@ const AddedData = ({
     optionValue3,
     optionValue4,
     optionValue5,
-    // selectedOption2,
-    // selectedOption3,
-    // selectedOption4,
-    // selectedOption5
+
+
 
 }) => {
+
+    const dispatch = useDispatch();
+    const handleDeleteRow = (optionValue) => {
+        dispatch(deleteRow(optionValue))
+        console.log(optionValue);
+        // deleteRow
+    };
+
     return (
         <div>
             <div class="table-container">
@@ -51,7 +58,9 @@ const AddedData = ({
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <div class="flex justify-center gap-4">
-                                    <button class="lws-remove">
+                                    <button
+                                        onClick={() => handleDeleteRow(optionValue)}
+                                        class="lws-remove">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                             stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -68,7 +77,7 @@ const AddedData = ({
     );
 };
 
-// export default AddedData;
+
 const mapStateToProps = (state) => {
     return {
         optionValue: state.optionValue,
@@ -76,7 +85,8 @@ const mapStateToProps = (state) => {
         optionValue3: state.optionValue3,
         optionValue4: state.optionValue4,
         optionValue5: state.optionValue5,
+        rows: state.rows,
     };
 };
 
-export default connect(mapStateToProps)(AddedData);
+export default connect(mapStateToProps, { deleteRow })(AddedData);
